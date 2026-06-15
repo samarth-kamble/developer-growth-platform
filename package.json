@@ -1,10 +1,13 @@
 {
-  "name": "\u0015developer-growth-platform",
+  "name": "developer-growth-platform",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
+    "db:generate": "pnpm --filter @workspace/database db:generate",
+    "db:migrate": "pnpm --filter @workspace/database db:migrate",
+    "db:studio": "pnpm --filter @workspace/database db:studio",
     "lint": "turbo lint",
     "format": "turbo format",
     "typecheck": "turbo typecheck"
