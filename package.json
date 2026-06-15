@@ -5,6 +5,9 @@
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
+    "db:generate": "pnpm --filter @workspace/database db:generate",
+    "db:migrate": "pnpm --filter @workspace/database db:migrate",
+    "db:studio": "pnpm --filter @workspace/database db:studio",
     "lint": "turbo lint",
     "format": "turbo format",
     "typecheck": "turbo typecheck"
