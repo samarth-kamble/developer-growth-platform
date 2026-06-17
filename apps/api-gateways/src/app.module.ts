@@ -14,7 +14,7 @@ export class AppModule implements NestModule {
     consumer
       .apply(
         createProxyMiddleware({
-          target: process.env.AUTH_SERVICE_URL || 'http://localhost:3001',
+          target: process.env.AUTH_SERVICE_URL || 'http://localhost:6001',
           changeOrigin: true,
         }),
       )
