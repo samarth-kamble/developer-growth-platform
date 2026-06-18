@@ -1,5 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { createProxyMiddleware } from 'http-proxy-middleware';
+import { createProxyMiddleware, fixRequestBody } from 'http-proxy-middleware';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -16,6 +16,10 @@ export class AppModule implements NestModule {
         createProxyMiddleware({
           target: process.env.AUTH_SERVICE_URL || 'http://localhost:6001',
           changeOrigin: true,
+          pathRewrite: (path) => `/api/auth${path}`,
+          on: {
+            proxyReq: fixRequestBody,
+          },
         }),
       )
       .forRoutes('/api/auth');

@@ -22,6 +22,8 @@ async function bootstrap() {
   const port = Number(process.env.PORT ?? 8080);
   await app.listen(port);
 
-  Logger.log(`API Gateway Server is running on ${port}`, 'Bootstrap');
+  const authServiceUrl = process.env.AUTH_SERVICE_URL || 'http://localhost:6001';
+  Logger.log(`API Gateway Server is running on http://localhost:${port}`, 'Bootstrap');
+  Logger.log(`Auth Service --> Proxying /api/auth to ${authServiceUrl}`, 'ProxyRouting');
 }
 void bootstrap();

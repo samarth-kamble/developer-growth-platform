@@ -1,15 +1,17 @@
-import { Geist, Geist_Mono } from "next/font/google"
+import { Fira_Code, } from "next/font/google"
 
 import "@workspace/ui/globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@workspace/ui/lib/utils"
+import { Toaster } from "@workspace/ui/components/sonner"
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" })
 
-const fontMono = Geist_Mono({
+const fontFira = Fira_Code({
   subsets: ["latin"],
-  variable: "--font-mono",
+  variable: "--font-fira",
 })
+
+
 
 export default function RootLayout({
   children,
@@ -22,13 +24,15 @@ export default function RootLayout({
       suppressHydrationWarning
       className={cn(
         "antialiased",
-        fontMono.variable,
-        "font-sans",
-        geist.variable
+        fontFira.className,
+        "font-fira",
       )}
     >
       <body className="ethereal-bg">
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          {children}
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   )
