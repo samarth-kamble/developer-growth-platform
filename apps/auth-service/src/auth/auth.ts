@@ -8,6 +8,11 @@ const resend = new Resend(process.env.RESEND_API_KEY || "re_dummy_key");
 
 export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL || 'http://localhost:8080/api/auth',
+  user: {
+    additionalFields: {
+      onboardingCompleted: { type: "boolean", defaultValue: false },
+    }
+  },
   trustedOrigins: ['http://localhost:3000'],
   database: prismaAdapter(prisma, {
     provider: 'postgresql',
