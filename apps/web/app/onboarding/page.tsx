@@ -5,6 +5,7 @@ import { Input } from "@workspace/ui/components/input"
 import { Label } from "@workspace/ui/components/label"
 import { ArrowRight, Briefcase, Code, Star, Target, X } from "lucide-react"
 import { useState } from "react"
+import { toast } from "sonner"
 import { submitOnboarding } from "@/features/onboarding/actions/onboarding-actions"
 import { TagInput } from "@/features/onboarding/components/tag-input"
 
@@ -12,6 +13,16 @@ export default function OnboardingPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [techStack, setTechStack] = useState<string[]>([])
   const [goals, setGoals] = useState<string[]>([])
+
+  const handleSubmit = async (formData: FormData) => {
+    setIsLoading(true)
+    const result = await submitOnboarding(formData)
+    
+    if (result?.error) {
+      toast.error(result.error)
+      setIsLoading(false)
+    }
+  }
 
   return (
     <div className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-slate-50 p-4 dark:bg-slate-950">
@@ -29,7 +40,7 @@ export default function OnboardingPage() {
           </p>
         </div>
 
-        <form action={submitOnboarding} className="space-y-6" onSubmit={() => setIsLoading(true)}>
+        <form action={handleSubmit} className="space-y-6">
           <div className="space-y-2">
             <Label className="text-sm font-medium text-slate-700 dark:text-gray-300" htmlFor="role">
               What is your primary role?
