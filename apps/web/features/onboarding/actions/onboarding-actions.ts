@@ -1,6 +1,6 @@
 "use server";
 
-import { authClient } from "@/lib/auth-client";
+import { authClient } from "@/features/auth/lib/auth-client";
 import { headers } from "next/headers";
 import { prisma } from "@workspace/database";
 import { redirect } from "next/navigation";

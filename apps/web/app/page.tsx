@@ -1,7 +1,7 @@
 import { Button } from "@workspace/ui/components/button"
 import { BarChart3, Bot, Sparkles, User, BrainCircuit } from "lucide-react"
-import { ThemeSwitcher } from "@/components/theme-switcher"
-import { constructMetadata } from "@/lib/metadata"
+import { ThemeSwitcher } from "@/features/core/components/theme-switcher"
+import { constructMetadata } from "@/features/core/lib/metadata"
 
 export const metadata = constructMetadata({
   title: "Dashboard | Devolio",

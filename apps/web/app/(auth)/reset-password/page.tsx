@@ -7,7 +7,7 @@ import { Lock, ArrowRight, Eye, EyeOff } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
-import { authClient } from "@/lib/auth-client"
+import { authClient } from "@/features/auth/lib/auth-client"
 import { Label } from "@workspace/ui/components/label"
 import { Input } from "@workspace/ui/components/input"
 import { Button } from "@workspace/ui/components/button"

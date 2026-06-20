@@ -1,4 +1,4 @@
-import { authClient } from "@/lib/auth-client";
+import { authClient } from "@/features/auth/lib/auth-client";
 import { headers } from "next/headers";
 
 export default async function DashboardPage() {

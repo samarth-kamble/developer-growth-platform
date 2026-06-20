@@ -1,7 +1,7 @@
 import { Fira_Code, } from "next/font/google"
 
 import "@workspace/ui/globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeProvider } from "@/features/core/components/theme-provider"
 import { cn } from "@workspace/ui/lib/utils"
 import { Toaster } from "@workspace/ui/components/sonner"
 
