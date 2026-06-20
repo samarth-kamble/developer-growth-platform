@@ -8,7 +8,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { z } from "zod"
 import { toast } from "sonner"
-import { authClient } from "@/lib/auth-client"
+import { authClient } from "@/features/auth/lib/auth-client"
 
 const signInSchema = z.object({
   email: z.string().email("Please enter a valid email address"),

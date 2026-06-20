@@ -1,4 +1,4 @@
-import { constructMetadata } from "@/lib/metadata"
+import { constructMetadata } from "@/features/core/lib/metadata"
 
 export const metadata = constructMetadata({
   title: "Forgot Password",

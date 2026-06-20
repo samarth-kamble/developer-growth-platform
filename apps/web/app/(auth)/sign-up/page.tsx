@@ -10,7 +10,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { z } from "zod"
 import { toast } from "sonner"
-import { authClient } from "@/lib/auth-client"
+import { authClient } from "@/features/auth/lib/auth-client"
 const signUpSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email address"),

@@ -1,7 +1,7 @@
-import { authClient } from "@/lib/auth-client";
+import { authClient } from "@/features/auth/lib/auth-client";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { SignOutButton } from "@/components/sign-out-button";
+import { SignOutButton } from "@/features/auth/components/sign-out-button";
 
 export default async function DashboardLayout({
   children,
