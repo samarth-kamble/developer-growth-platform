@@ -28,7 +28,7 @@ export default function RootLayout({
         "font-fira",
       )}
     >
-      <body className="ethereal-bg">
+      <body className="ethereal-bg" suppressHydrationWarning>
         <ThemeProvider>
           {children}
           <Toaster />

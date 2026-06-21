@@ -4,18 +4,24 @@ import { Input } from "@workspace/ui/components/input"
 import { X } from "lucide-react"
 import { useState } from "react"
 
+import { cn } from "@workspace/ui/lib/utils"
+
 export function TagInput({ 
   name, 
   placeholder, 
   icon: Icon,
   tags,
-  setTags
+  setTags,
+  inputClassName,
+  iconClassName
 }: { 
   name: string, 
   placeholder: string,
   icon: any,
   tags: string[],
-  setTags: (tags: string[]) => void
+  setTags: (tags: string[]) => void,
+  inputClassName?: string,
+  iconClassName?: string
 }) {
   const [inputValue, setInputValue] = useState("")
 
@@ -37,14 +43,14 @@ export function TagInput({
   return (
     <div className="space-y-3">
       <div className="group relative">
-        <Icon className="absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 text-slate-400 transition-colors group-focus-within:text-primary dark:text-gray-500" />
+        <Icon className={cn("absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 text-slate-400 transition-colors group-focus-within:text-primary dark:text-gray-500", iconClassName)} />
         <Input
           type="text"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
-          className="h-auto w-full rounded-xl border border-slate-200 bg-white/50 py-3.5 pr-4 pl-12 text-slate-900 shadow-sm transition-all placeholder:text-slate-400 focus:border-primary focus:ring-2 focus:ring-primary/50 focus:outline-none dark:border-white/10 dark:bg-white/5 dark:text-white dark:placeholder:text-gray-600"
+          className={cn("h-auto w-full rounded-xl border border-slate-200 bg-white/50 py-3.5 pr-4 pl-12 text-slate-900 shadow-sm transition-all placeholder:text-slate-400 focus:border-primary focus:ring-2 focus:ring-primary/50 focus:outline-none dark:border-white/10 dark:bg-white/5 dark:text-white dark:placeholder:text-gray-600", inputClassName)}
         />
       </div>
       
