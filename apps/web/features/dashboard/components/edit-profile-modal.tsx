@@ -95,7 +95,7 @@ export function EditProfileModal({ initialData }: EditProfileModalProps) {
                 name="role"
                 defaultValue={initialData.role || ""}
                 required
-                className="pl-9 bg-white/5 border-white/10 text-white placeholder:text-slate-500 focus:border-primary/50"
+                className="pl-9 h-10 bg-white/5 border-white/10 text-white placeholder:text-slate-500 focus:border-primary/50"
               />
             </div>
           </div>
@@ -152,7 +152,7 @@ export function EditProfileModal({ initialData }: EditProfileModalProps) {
             <Button
               type="submit"
               disabled={isLoading}
-              className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.2)]"
+              className="h-10 px-6 bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.2)]"
             >
               {isLoading ? "Saving..." : "Save Changes"}
             </Button>

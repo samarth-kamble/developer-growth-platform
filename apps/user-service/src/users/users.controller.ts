@@ -1,4 +1,4 @@
-import { Controller, Get, Put, Body, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Put, Body, UseGuards, Req, BadRequestException } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { AuthGuard } from '../auth/auth.guard';
 import { z } from 'zod';
@@ -14,7 +14,7 @@ const updateProfileSchema = z.object({
 @Controller('api/users')
 @UseGuards(AuthGuard)
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   @Get('me')
   async getMe(@Req() req: any) {
@@ -24,7 +24,13 @@ export class UsersController {
 
   @Put('me')
   async updateMe(@Req() req: any, @Body() body: any) {
-    const validatedData = updateProfileSchema.parse(body);
-    return this.usersService.updateProfile(req.user.id, validatedData);
+    try {
+      const validatedData = updateProfileSchema.parse(body);
+      return await this.usersService.updateProfile(req.user.id, validatedData);
+    } catch (e: any) {
+      console.error("DEBUG UsersController PUT error:", e);
+      throw new BadRequestException(e.message || e);
+    }
   }
 }
+

@@ -6,17 +6,25 @@ export default async function middleware(request: NextRequest) {
     // Use your API Gateway Auth URL
     const authUrl = process.env.NEXT_PUBLIC_AUTH_URL || "http://localhost:8080/api/auth";
 
-    // Ask Better Auth if the current cookie is a valid session
-    const response = await fetch(`${authUrl}/get-session`, {
-        headers: {
-            cookie: request.headers.get("cookie") || "",
-        },
-    });
-
     const isAuthRoute = ["/sign-in", "/sign-up", "/forgot-password", "/reset-password"].some(route => 
         request.nextUrl.pathname.startsWith(route)
     );
     const isProtectedRoute = request.nextUrl.pathname.startsWith("/dashboard") || request.nextUrl.pathname.startsWith("/onboarding");
+
+    let response;
+    try {
+        response = await fetch(`${authUrl}/get-session`, {
+            headers: {
+                cookie: request.headers.get("cookie") || "",
+            },
+        });
+    } catch (e) {
+        // If fetch fails (e.g. gateway offline), redirect to sign-in or continue if public
+        if (isProtectedRoute) {
+            return NextResponse.redirect(new URL("/sign-in", request.url));
+        }
+        return NextResponse.next();
+    }
 
     // If the session is dead or missing, and trying to access a protected route, bounce them to sign-in
     if (!response.ok) {
