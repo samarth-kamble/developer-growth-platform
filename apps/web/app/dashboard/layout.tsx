@@ -5,26 +5,7 @@ import { LayoutDashboard } from "lucide-react";
 import { ThemeSwitcher } from "@/features/core/components/theme-switcher";
 import { ProfileSidebar } from "@/features/dashboard/components/profile-sidebar";
 import { UserNav } from "@/features/dashboard/components/user-nav";
-import { apiClient } from "@/features/core/lib/api-client";
-
-async function getProfileData(headersList: Headers) {
-  try {
-    const cookie = headersList.get("cookie") || "";
-    const res = await apiClient("/api/users/me", {
-      headers: { cookie },
-      cache: "no-store"
-    });
-    
-    if (!res.ok) {
-      return null;
-    }
-    
-    return await res.json();
-  } catch (error) {
-    console.error("Failed to fetch profile:", error);
-    return null;
-  }
-}
+import { getProfileData } from "@/features/dashboard/server/profile";
 
 export default async function DashboardLayout({
   children,

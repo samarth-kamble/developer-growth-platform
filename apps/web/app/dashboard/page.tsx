@@ -1,28 +1,8 @@
 import { authClient } from "@/features/auth/lib/auth-client";
 import { headers } from "next/headers";
 import { CheckCircle, GitCommit, Trophy, Medal } from "lucide-react";
-import { apiClient } from "@/features/core/lib/api-client";
 import { Button } from "@workspace/ui/components/button";
-
-async function getProfileData(headersList: Headers) {
-  try {
-    // Forward the cookie to the API Gateway
-    const cookie = headersList.get("cookie") || "";
-    const res = await apiClient("/api/users/me", {
-      headers: { cookie },
-      cache: "no-store"
-    });
-
-    if (!res.ok) {
-      return null;
-    }
-
-    return await res.json();
-  } catch (error) {
-    console.error("Failed to fetch profile from microservice:", error);
-    return null;
-  }
-}
+import { getProfileData } from "@/features/dashboard/server/profile";
 
 export default async function DashboardPage() {
   const headersList = await headers();
