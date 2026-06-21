@@ -4,6 +4,7 @@ import { AuthGuard } from '../auth/auth.guard';
 import { z } from 'zod';
 
 const updateProfileSchema = z.object({
+  username: z.string().min(3, "Username must be at least 3 characters").max(30).regex(/^[a-zA-Z0-9_]+$/, "Username can only contain letters, numbers, and underscores").optional(),
   role: z.string().min(2).optional(),
   experienceLevel: z.string().min(1).optional(),
   techStack: z.array(z.string()).max(20).optional(),

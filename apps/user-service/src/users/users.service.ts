@@ -9,6 +9,7 @@ export class UsersService {
       select: {
         id: true,
         name: true,
+        username: true,
         email: true,
         role: true,
         experienceLevel: true,
@@ -26,27 +27,36 @@ export class UsersService {
   }
 
   async updateProfile(userId: string, data: any) {
-    // Ensure we only update allowed fields
-    const updatedUser = await prisma.user.update({
-      where: { id: userId },
-      data: {
-        role: data.role,
-        experienceLevel: data.experienceLevel,
-        techStack: data.techStack,
-        goals: data.goals,
-        ...(data.onboardingCompleted !== undefined && { onboardingCompleted: data.onboardingCompleted }),
-      },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        role: true,
-        experienceLevel: true,
-        techStack: true,
-        goals: true,
-      },
-    });
+    try {
+      // Ensure we only update allowed fields
+      const updatedUser = await prisma.user.update({
+        where: { id: userId },
+        data: {
+          username: data.username,
+          role: data.role,
+          experienceLevel: data.experienceLevel,
+          techStack: data.techStack,
+          goals: data.goals,
+          ...(data.onboardingCompleted !== undefined && { onboardingCompleted: data.onboardingCompleted }),
+        },
+        select: {
+          id: true,
+          name: true,
+          username: true,
+          email: true,
+          role: true,
+          experienceLevel: true,
+          techStack: true,
+          goals: true,
+        },
+      });
 
-    return updatedUser;
+      return updatedUser;
+    } catch (error: any) {
+      if (error.code === 'P2002' && error.meta?.target?.includes('username')) {
+        throw new Error('Username is already taken');
+      }
+      throw error;
+    }
   }
 }

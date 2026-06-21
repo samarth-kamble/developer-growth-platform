@@ -11,7 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@workspace/ui/components/dialog"
-import { Briefcase, Code, Star, Target, ArrowRight } from "lucide-react"
+import { Briefcase, Code, Star, Target, ArrowRight, User } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
 import { TagInput } from "@/features/onboarding/components/tag-input"
@@ -20,14 +20,16 @@ import { apiClient } from "@/features/core/lib/api-client"
 
 interface EditProfileModalProps {
   initialData: {
+    username: string | null;
     role: string | null;
     experienceLevel: string | null;
     techStack: string[];
     goals: string[];
-  }
+  };
+  children?: React.ReactNode;
 }
 
-export function EditProfileModal({ initialData }: EditProfileModalProps) {
+export function EditProfileModal({ initialData, children }: EditProfileModalProps) {
   const [open, setOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [techStack, setTechStack] = useState<string[]>(initialData.techStack || [])
@@ -40,6 +42,7 @@ export function EditProfileModal({ initialData }: EditProfileModalProps) {
 
     const formData = new FormData(e.currentTarget)
     const payload = {
+      username: formData.get("username"),
       role: formData.get("role"),
       experienceLevel: formData.get("experienceLevel"),
       techStack,
@@ -71,9 +74,11 @@ export function EditProfileModal({ initialData }: EditProfileModalProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="h-9 px-4 py-2 border-primary/20 hover:bg-primary/5 hover:text-primary transition-colors">
-          Edit Profile
-        </Button>
+        {children ? children : (
+          <Button variant="outline" className="h-9 px-4 py-2 border-primary/20 hover:bg-primary/5 hover:text-primary transition-colors">
+            Edit Profile
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px] border-white/10 bg-slate-950/95 backdrop-blur-xl text-slate-100 shadow-[0_0_40px_rgba(0,0,0,0.5)] rounded-2xl">
         <DialogHeader>
@@ -84,6 +89,27 @@ export function EditProfileModal({ initialData }: EditProfileModalProps) {
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6 mt-4">
+          <div className="space-y-2">
+            <Label className="text-sm font-medium text-slate-300" htmlFor="username">
+              Username
+            </Label>
+            <div className="group relative flex items-center">
+              <span className="absolute left-3.5 text-slate-500 font-medium z-10 transition-colors group-focus-within:text-primary">@</span>
+              <Input
+                id="username"
+                name="username"
+                defaultValue={initialData.username || ""}
+                required
+                minLength={3}
+                maxLength={30}
+                pattern="^[a-zA-Z0-9_]+$"
+                title="Username can only contain letters, numbers, and underscores"
+                placeholder="codewithsamarthk"
+                className="pl-8 h-10 bg-white/5 border-white/10 text-white placeholder:text-slate-500 focus:border-primary/50 relative"
+              />
+            </div>
+          </div>
+
           <div className="space-y-2">
             <Label className="text-sm font-medium text-slate-300" htmlFor="role">
               Primary Role
@@ -132,6 +158,8 @@ export function EditProfileModal({ initialData }: EditProfileModalProps) {
               icon={Code}
               tags={techStack}
               setTags={setTechStack}
+              iconClassName="left-3 h-4 w-4 text-slate-500 group-focus-within:text-primary transition-colors"
+              inputClassName="pl-9 h-10 rounded-md bg-white/5 border-white/10 text-white placeholder:text-slate-500 focus:border-primary/50"
             />
           </div>
 
@@ -145,6 +173,8 @@ export function EditProfileModal({ initialData }: EditProfileModalProps) {
               icon={Target}
               tags={goals}
               setTags={setGoals}
+              iconClassName="left-3 h-4 w-4 text-slate-500 group-focus-within:text-primary transition-colors"
+              inputClassName="pl-9 h-10 rounded-md bg-white/5 border-white/10 text-white placeholder:text-slate-500 focus:border-primary/50"
             />
           </div>
 
