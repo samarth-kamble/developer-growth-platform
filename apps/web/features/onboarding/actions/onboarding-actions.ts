@@ -2,9 +2,9 @@
 
 import { authClient } from "@/features/auth/lib/auth-client";
 import { headers } from "next/headers";
-import { prisma } from "@workspace/database";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { apiClient } from "@/features/core/lib/api-client";
 
 const onboardingSchema = z.object({
   role: z.string().min(2, "Role must be at least 2 characters"),
@@ -49,18 +49,25 @@ export async function submitOnboarding(formData: FormData) {
     });
 
     if (!validatedData.success) {
-      // Return the first validation error message or a default fallback
       return { error: validatedData.error.issues[0]?.message || "Invalid form data provided." };
     }
 
-    // Perform database update
-    await prisma.user.update({
-      where: { id: userId },
-      data: {
+    // Call API Gateway to update the profile
+    const cookie = (await headers()).get("cookie") || "";
+    const response = await apiClient("/api/users/me", {
+      method: "PUT",
+      headers: {
+        cookie,
+      },
+      body: JSON.stringify({
         ...validatedData.data,
         onboardingCompleted: true,
-      },
+      }),
     });
+
+    if (!response.ok) {
+      throw new Error("API Gateway rejected the profile update");
+    }
 
   } catch (error) {
     console.error("Onboarding error:", error);

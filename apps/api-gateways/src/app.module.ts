@@ -23,5 +23,18 @@ export class AppModule implements NestModule {
         }),
       )
       .forRoutes('/api/auth');
+
+    consumer
+      .apply(
+        createProxyMiddleware({
+          target: process.env.USER_SERVICE_URL || 'http://localhost:6002',
+          changeOrigin: true,
+          pathRewrite: (path) => `/api/users${path}`,
+          on: {
+            proxyReq: fixRequestBody,
+          },
+        }),
+      )
+      .forRoutes('/api/users');
   }
 }
