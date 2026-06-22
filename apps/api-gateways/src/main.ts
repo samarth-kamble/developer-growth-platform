@@ -24,8 +24,10 @@ async function bootstrap() {
 
   const authServiceUrl = process.env.AUTH_SERVICE_URL || 'http://localhost:6001';
   const userServiceUrl = process.env.USER_SERVICE_URL || 'http://localhost:6002';
+  const githubServiceUrl = process.env.GITHUB_SERVICE_URL || 'http://localhost:6003';
   Logger.log(`API Gateway Server is running on http://localhost:${port}`, 'Bootstrap');
   Logger.log(`Auth Service --> Proxying /api/auth to ${authServiceUrl}`, 'ProxyRouting');
   Logger.log(`User Service --> Proxying /api/users to ${userServiceUrl}`, 'ProxyRouting');
+  Logger.log(`Github Service --> Proxying /api/github to ${githubServiceUrl}`, 'ProxyRouting');
 }
 void bootstrap();
