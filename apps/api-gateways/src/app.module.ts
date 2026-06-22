@@ -36,5 +36,18 @@ export class AppModule implements NestModule {
         }),
       )
       .forRoutes('/api/users');
+
+    consumer
+      .apply(
+        createProxyMiddleware({
+          target: process.env.GITHUB_SERVICE_URL || 'http://localhost:6003',
+          changeOrigin: true,
+          pathRewrite: (path) => `/api/github${path}`,
+          on: {
+            proxyReq: fixRequestBody,
+          },
+        }),
+      )
+      .forRoutes('/api/github');
   }
 }
